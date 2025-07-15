@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEING HR - India's Leading HR Community (NoBS)</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      transition: opacity 0.5s ease-out;
+    }
+    .loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .loading-spinner {
+      width: 80px;
+      height: 80px;
+      animation: spin 1s linear infinite;
+      display: block;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-text {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-family: 'Kanit', Arial, sans-serif;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    :root {
+      --primary: #f8a5b6;
+      --secondary: #a7e9f7;
+      --accent: #ffe9a7;
+      --deep: #b3b6f7;
+      --black: #111;
+      --white: #f5f4ef;
+      --gray: #f5f5f5;
+      --text-dark: #111;
+      --text-light: #f5f4ef;
+      --footer-bg: #111;
+      --footer-text: #f5f4ef;
+    }
+    [data-theme="dark"] {
+      --bg: var(--black);
+      --text: var(--white);
+      --card: #222;
+      --footer-bg: #f5f4ef;
+      --footer-text: #111;
+    }
+    [data-theme="light"] {
+      --bg: var(--white);
+      --text: var(--black);
+      --card: #f5f5f5;
+      --footer-bg: #222;
+      --footer-text: #f5f4ef;
+    }
+    html, body {
+      background: var(--bg, #f5f4ef);
+      color: var(--text, #111);
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    #scroll-bar {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 6px;
+      background: rgba(255,255,255,0.85);
+      z-index: 10000;
+    }
+    [data-theme="dark"] #scroll-bar {
+      background: rgba(17,17,17,0.85);
+    }
+    #scroll-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent), var(--deep));
+      transition: width 0.1s;
+    }
+    header {
+      background: rgba(255,255,255,0.85);
+      color: var(--text, #111);
+      border-bottom: 0.5px solid #eee;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    [data-theme="dark"] header {
+      background: rgba(17,17,17,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid #222;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.5rem 1rem;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .menu-icon {
+      font-size: 2rem;
+      cursor: pointer;
+      color: inherit;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+    }
+    .logo-img {
+      height: 36px;
+      width: auto;
+      margin-right: 0.5rem;
+    }
+    .logo-text {
+      font-weight: bold;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      font-family: 'Kanit', Arial, sans-serif !important;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .header-link {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      margin: 0 0.2rem;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      padding: 0.2rem 0.9rem;
+      transition: border 0.3s, color 0.3s, border-image 0.3s;
+    }
+    .header-link:hover {
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111;
+      background: none;
+    }
+    [data-theme="dark"] .header-link:hover {
+      color: #f5f4ef;
+    }
+    .join-btn {
+      background: none;
+      color: inherit;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      padding: 0.2rem 0.9rem;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      transition: border 0.3s, color 0.3s, border-image 0.3s;
+    }
+    .join-btn:hover {
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111;
+      background: none;
+    }
+    [data-theme="dark"] .join-btn:hover {
+      color: #f5f4ef;
+    }
+    .theme-toggle {
+      background: none;
+      border: 1px solid #bbb;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: inherit;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    /* Drawer */
+    .drawer-bg {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.2);
+    }
+    .drawer-bg.active { display: block; }
+    .drawer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px;
+      height: 100vh;
+      background: var(--bg, #f5f4ef);
+      color: var(--text, #111);
+      box-shadow: 2px 0 24px rgba(0,0,0,0.10);
+      z-index: 2001;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.2rem 1.2rem 1.2rem;
+      transform: translateX(-100%);
+      transition: transform 0.25s;
+    }
+    .drawer.active { transform: translateX(0); }
+    .drawer-close {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 1.5rem;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+    .drawer-link {
+      color: inherit;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 0.5rem 0;
+      transition: color 0.3s, background 0.3s;
+      background: none;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: currentColor;
+    }
+    .drawer-link:hover {
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+    /* Gradient Bar */
+    .gradient-bar {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .gradient-bar-text {
+      color: #111;
+      font-size: 2.3rem;
+      font-weight: 800;
+      text-align: center;
+      width: 100%;
+      pointer-events: none;
+      letter-spacing: -1px;
+    }
+    @media (max-width: 600px) {
+      .gradient-bar { height: 90px; }
+      .gradient-bar-text { font-size: 1.1rem; }
+    }
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 3rem 0 2rem 0;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary, .join-btn {
+      font-size: 1rem;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      margin-bottom: 0.5rem;
+      background: #111;
+      color: #f5f4ef;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-primary:hover, .join-btn:hover {
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      color: #111;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: #111;
+      border: 2px solid #111;
+      font-size: 1rem;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: border 0.3s, color 0.3s, border-image 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    [data-theme="dark"] .btn-secondary {
+      color: #f5f4ef;
+      border: 2px solid #f5f4ef;
+    }
+    .btn-secondary:hover {
+      color: #000000;
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      background: none;
+    }
+    .btn-secondary:hover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .btn-secondary {
+      background-clip: padding-box;
+    }
+    /* Ensure text stays above gradient border */
+    .btn-secondary span, .btn-secondary {
+      position: relative;
+      z-index: 2;
+    }
+    [data-theme="dark"] .btn-secondary {
+      color: #f5f4ef;
+      border: 2px solid #f5f4ef;
+    }
+    /* About Us */
+    .about-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .about-title-massive {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+      text-align: right;
+      min-width: 120px;
+      margin-right: 2rem;
+      color: #111;
+    }
+    .about-title-massive span { display: block; }
+    [data-theme="dark"] .about-title-massive {
+      color: #f5f4ef;
+    }
+    .about-content-right {
+      max-width: 500px;
+      font-size: 1.1rem;
+    }
+    .features-row {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .feature-flashcard {
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%) !important;
+      border-radius: 12px;
+      padding: 1.5rem 1.2rem;
+      min-width: 260px;
+      max-width: 400px;
+      flex: 1 1 0;
+      text-align: center;
+      box-shadow: 0 2px 8px #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0 0.5rem;
+      height: 100%;
+    }
+    .feature-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+    @media (max-width: 900px) {
+      .features-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+      }
+      .feature-flashcard {
+        width: 90vw;
+        max-width: 95vw;
+      }
+      .feature-flashcard-img {
+        max-width: 95vw;
+        height: 80px;
+      }
+    }
+    .feature-flashcard-img {
+      width: 100%;
+      max-width: 400px;
+      height: 110px;
+      object-fit: cover;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-bottom: 0.7rem;
+      display: block;
+    }
+    .feature-description {
+      text-align: center;
+    }
+    /* Events */
+    .events-row {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .event-card {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 1.2rem 1rem;
+      min-width: 220px;
+      max-width: 300px;
+      text-align: left;
+      box-shadow: 0 2px 8px #eee;
+    }
+    .event-title {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    .event-date {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+    /* Reviews */
+    .reviews-row {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .review-card {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 1.2rem 1rem;
+      min-width: 220px;
+      max-width: 300px;
+      text-align: left;
+      box-shadow: 0 2px 8px #eee;
+    }
+    .review-text {
+      margin-bottom: 0.7rem;
+    }
+    /* Insights */
+    .insights-row {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .blog-card, #blogs .carousel-card {
+      min-width: 300px;
+      max-width: 340px;
+      width: 320px;
+      min-height: 320px;
+      height: 320px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    @media (max-width: 900px) {
+      .blog-card, #blogs .carousel-card {
+        min-width: 90vw;
+        max-width: 95vw;
+        width: 95vw;
+        min-height: 220px;
+        height: auto;
+      }
+    }
+    .blog-title {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    .blog-date {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+    .blog-excerpt {
+      margin-bottom: 1rem;
+    }
+    .blog-read-more {
+      font-size: 1rem;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      border: 2px solid transparent;
+      margin-top: 1rem;
+      background: none;
+      color: inherit;
+      cursor: pointer;
+      transition: border 0.3s, color 0.3s, border-image 0.3s;
+      display: inline-block;
+    }
+    .blog-read-more:hover {
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111 !important;
+      background: none;
+    }
+    [data-theme="dark"] .blog-read-more {
+      color: #f5f4ef !important;
+      border: 2px solid transparent;
+      background: none;
+    }
+    [data-theme="dark"] .blog-read-more:hover {
+      color: #f5f4ef !important;
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      background: none;
+    }
+    /* Contact */
+    .contact-content {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      margin-bottom: 2.5rem;
+    }
+    .contact-flashcard {
+      background: transparent;
+      border-radius: 16px;
+      border: 2px solid var(--text, #111);
+      box-shadow: none;
+      display: flex;
+      flex-direction: row;
+      gap: 2.5rem;
+      padding: 2.5rem 2.5rem;
+      width: 100%;
+      max-width: 900px;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    [data-theme="dark"] .contact-flashcard {
+      border: 2px solid var(--text, #f5f4ef);
+    }
+    .contact-flashcard .contact-info {
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0 0.5rem 0 0;
+      min-width: 0;
+      max-width: 100%;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      color: var(--text, #111);
+    }
+    .contact-flashcard .contact-info .contact-item {
+      text-align: left;
+      margin-bottom: 1.1rem;
+    }
+    .contact-flashcard .contact-form {
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0 0 0 0.5rem;
+      min-width: 0;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      color: var(--text, #111);
+    }
+    .contact-flashcard .contact-form h3 {
+      margin-bottom: 1.5rem;
+      margin-top: 0.5rem;
+      text-align: left;
+      width: 100%;
+    }
+    .contact-flashcard .contact-form form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .contact-flashcard .form-group {
+      width: 100%;
+    }
+    .contact-flashcard .form-group textarea {
+      max-width: 100%;
+      min-width: 100%;
+      resize: vertical;
+    }
+    .contact-item {
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid var(--text, #111);
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: transparent;
+      color: var(--text, #111);
+    }
+    [data-theme="dark"] .form-group input, 
+    [data-theme="dark"] .form-group textarea {
+      border: 1px solid var(--text, #f5f4ef);
+      color: var(--text, #f5f4ef);
+    }
+    /* Contact section text colors for dark mode */
+    [data-theme="dark"] .contact-flashcard .contact-info,
+    [data-theme="dark"] .contact-flashcard .contact-form {
+      color: #f5f4ef !important;
+    }
+    [data-theme="dark"] .contact-flashcard .contact-info .contact-item,
+    [data-theme="dark"] .contact-flashcard .contact-form h3 {
+      color: #f5f4ef !important;
+    }
+    [data-theme="dark"] .contact-flashcard .contact-info .contact-item strong,
+    [data-theme="dark"] .contact-flashcard .contact-info .contact-item p {
+      color: #f5f4ef !important;
+    }
+    .form-group textarea {
+      min-height: 80px;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 0.7rem;
+      border: 2px solid #111;
+      border-radius: 0;
+      background: var(--text, #111);
+      color: var(--bg, #f5f4ef);
+      font-weight: 500;
+      font-size: 1rem;
+      transition: background 0.3s, color 0.3s, border 0.3s, border-image 0.3s;
+    }
+    [data-theme="dark"] .submit-btn {
+      background: var(--text, #f5f4ef);
+      color: var(--bg, #111);
+      border: 2px solid #f5f4ef;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111;
+    }
+    [data-theme="dark"] .submit-btn:hover {
+      color: #111;
+    }
+    /* Footer */
+    footer {
+      width: 100%;
+      background: #000;
+      color: #fff;
+      padding: 2.5rem 0 1.5rem 0;
+      position: relative;
+      z-index: 2;
+    }
+    [data-theme="dark"] footer {
+      background: #fff;
+      color: #000;
+    }
+    .footer-main {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto 1.5rem auto;
+      padding: 0 24px;
+      min-height: 180px;
+    }
+    .footer-logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 220px;
+    }
+    .footer-logo-img {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.7rem;
+    }
+    .footer-logo-img img {
+      height: 38px;
+      width: auto;
+      margin-right: 0.7rem;
+    }
+    .footer-logo-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: inherit;
+    }
+    .footer-address {
+      font-size: 1rem;
+      color: inherit;
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+    .footer-middle-block {
+      flex: 2 1 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: inherit;
+      padding: 0 1.5rem;
+      min-width: 260px;
+      max-width: 600px;
+      margin: 0 auto;
+      height: 100%;
+    }
+    .footer-icons-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 2 1 400px;
+      min-width: 260px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .footer-description-block {
+      flex: 2 1 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      text-align: right;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: inherit;
+      padding: 0 1.5rem;
+      min-width: 260px;
+      max-width: 600px;
+      margin: 0 auto;
+      height: 100%;
+    }
+    .footer-description-block .footer-description {
+      margin-bottom: 0.5rem;
+      margin-top: auto;
+    }
+    @media (max-width: 900px) {
+      .footer-main {
+        flex-direction: column;
+        align-items: center;
+        min-height: unset;
+      }
+      .footer-logo-block,
+      .footer-icons-block,
+      .footer-description-block {
+        align-items: center !important;
+        text-align: center !important;
+        padding: 0;
+        max-width: 95vw;
+        font-size: 1rem;
+        min-height: unset;
+        height: auto;
+        justify-content: center;
+      }
+    }
+    .footer-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .footer-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      font-size: 2rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-icons a:hover {
+      color: #888;
+    }
+    .footer-icons svg {
+      width: 2.1rem;
+      height: 2.1rem;
+      fill: currentColor;
+      display: block;
+    }
+    .footer-contact-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 1.1rem;
+    }
+    .footer-contact-row a {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .footer-contact-row .footer-phone {
+      font-size: 1.5rem;
+    }
+    .footer-bottom {
+      font-size: 0.95rem;
+      color: inherit;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    /* Section Headings Centered */
+    .container > h2,
+    .container > h3 {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+    .feature-flashcard,
+    .event-card,
+    .review-card,
+    .blog-card,
+    .contact-info,
+    .contact-form {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 1.5rem 1.2rem;
+      min-width: 220px;
+      max-width: 260px;
+      text-align: center;
+      box-shadow: 0 2px 8px #eee;
+    }
+    [data-theme="dark"] .feature-flashcard,
+    [data-theme="dark"] .event-card,
+    [data-theme="dark"] .review-card,
+    [data-theme="dark"] .blog-card,
+    [data-theme="dark"] .contact-info,
+    [data-theme="dark"] .contact-form {
+      color: #111 !important;
+    }
+    /* Full-width fixed-height header image above contact section */
+    .header-image-bar {
+      width: 100%;
+      overflow: hidden;
+      margin: 0 auto 2.5rem auto;
+      display: block;
+      background: #f5f4ef;
+    }
+    .header-image-bar img {
+      width: 100%;
+      height: 90px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      margin: 0 auto;
+      pointer-events: none;
+      user-select: none;
+      background: #f5f4ef;
+    }
+    @media (max-width: 900px) {
+      .about-section, .features-row, .events-row, .reviews-row, .insights-row, .footer-main, .contact-content {
+        flex-direction: column;
+        align-items: center;
+      }
+      .about-title-massive {
+        font-size: 2.2rem;
+        margin-right: 0;
+        text-align: center;
+      }
+      .contact-flashcard {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 1.2rem 0.7rem;
+      }
+      .contact-flashcard .contact-info, .contact-flashcard .contact-form {
+        padding: 0;
+      }
+    }
+    footer, footer * {
+      user-select: text !important;
+    }
+    footer, .footer-main, .footer-main * {
+      color: #fff !important;
+    }
+    [data-theme="dark"] footer, [data-theme="dark"] .footer-main, [data-theme="dark"] .footer-main * {
+      color: #111 !important;
+    }
+    /* Unify hero and header button styles for Join Us, Join the Community, and Explore Our Events */
+    .hero-buttons a.header-link,
+    .btn-primary.header-link {
+      font-size: 1.3rem;
+      padding: 0.4rem 1.5rem;
+      border-radius: 0;
+      border: 2px solid #111;
+      background: var(--text, #111);
+      color: var(--bg, #f5f4ef);
+      font-weight: 500;
+      margin: 0 0.3rem;
+      transition: background 0.3s, color 0.3s, border 0.3s, border-image 0.3s;
+      display: inline-block;
+    }
+    /* Header Join Us button - same behavior but smaller size */
+    .btn-primary.header-link {
+      font-size: 1rem;
+      padding: 0.2rem 0.9rem;
+      margin-left: 0.5rem;
+    }
+    [data-theme="dark"] .hero-buttons a.header-link,
+    [data-theme="dark"] .btn-primary.header-link {
+      border: 2px solid #f5f4ef;
+      background: var(--text, #f5f4ef);
+      color: var(--bg, #111);
+    }
+    .hero-buttons a.header-link:hover,
+    .btn-primary.header-link:hover {
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111;
+    }
+    [data-theme="dark"] .hero-buttons a.header-link:hover,
+    [data-theme="dark"] .btn-primary.header-link:hover {
+      color: #111;
+    }
+    .hero-buttons a#explore-events-btn {
+      border: 2px solid #111;
+      border-radius: 0;
+      background: none;
+      color: inherit;
+      transition: border 0.3s, color 0.3s, border-image 0.3s;
+    }
+    [data-theme="dark"] .hero-buttons a#explore-events-btn {
+      border: 2px solid #f5f4ef;
+    }
+    .hero-buttons a#explore-events-btn:hover {
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111;
+    }
+    [data-theme="dark"] .hero-buttons a#explore-events-btn:hover {
+      color: #f5f4ef;
+    }
+    /* Events carousel with navigation, Reviews and Insights as horizontal scroll */
+    .carousel-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 0 60px;
+    }
+    .carousel-container.no-nav {
+      padding: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    .carousel-container.no-nav .carousel-track {
+      display: flex;
+      gap: 2rem;
+      padding: 0 1rem;
+      transition: none;
+    }
+    .carousel-container.no-nav .carousel-slide {
+      min-width: 300px;
+      flex: 0 0 300px;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 2rem;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      align-items: center;
+    }
+    .carousel-slide {
+      min-width: calc(33.333% - 1.33rem);
+      flex: 0 0 calc(33.333% - 1.33rem);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .carousel-card {
+      position: relative;
+      background: transparent;
+      border-radius: 12px;
+      border: 2px solid var(--text, #111);
+      padding: 1.5rem 1.2rem;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0.85;
+      transform: scale(0.95);
+      color: var(--text, #111);
+    }
+    .carousel-card.active {
+      opacity: 1;
+      transform: scale(1.05);
+      z-index: 2;
+    }
+    [data-theme="dark"] .carousel-card {
+      background: transparent;
+      border: 2px solid var(--text, #f5f4ef);
+      color: var(--text, #f5f4ef);
+    }
+    /* Specific styling for Latest Insights and Voices sections */
+    #blogs .carousel-card,
+    #reviews .carousel-card {
+      border: 2px solid #111;
+      color: #111;
+      opacity: 0.9;
+    }
+    [data-theme="dark"] #blogs .carousel-card,
+    [data-theme="dark"] #reviews .carousel-card {
+      border: 2px solid #f5f4ef;
+      color: #f5f4ef;
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, opacity 0.3s;
+    }
+    .carousel-arrow:hover:not(:disabled) {
+      background: rgba(0,0,0,0.9);
+    }
+    .carousel-arrow:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      background: rgba(0,0,0,0.4);
+    }
+    .carousel-arrow.left {
+      left: 0;
+    }
+    .carousel-arrow.right {
+      right: 0;
+    }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .carousel-dot.active {
+      background: #f8a5b6;
+    }
+    .blog-read-more {
+      font-size: 1rem;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      border: 2px solid transparent;
+      margin-top: 1rem;
+      background: none;
+      color: inherit;
+      cursor: pointer;
+      transition: border 0.3s, color 0.3s, border-image 0.3s;
+      display: inline-block;
+    }
+    .blog-read-more:hover {
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111 !important;
+      background: none;
+    }
+    [data-theme="dark"] .blog-read-more {
+      color: #f5f4ef !important;
+      border: 2px solid transparent;
+      background: none;
+    }
+    [data-theme="dark"] .blog-read-more:hover {
+      color: #f5f4ef !important;
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      background: none;
+    }
+    /* Left-align content in Events, Latest Insights, and Reviews */
+    .carousel-card .event-details,
+    .carousel-card .blog-excerpt,
+    .carousel-card .review-text,
+    .carousel-card .review-author,
+    .carousel-card .review-company {
+      text-align: left;
+      color: inherit;
+    }
+    .carousel-card .event-title,
+    .carousel-card .blog-title {
+      text-align: left;
+      color: inherit;
+    }
+    .carousel-card .event-date,
+    .carousel-card .blog-date {
+      text-align: left;
+      color: inherit;
+    }
+    /* Ensure black text for Latest Insights and Voices sections */
+    #blogs .carousel-card .blog-title,
+    #blogs .carousel-card .blog-excerpt,
+    #blogs .carousel-card .blog-date,
+    #blogs .carousel-card .blog-read-more,
+    #reviews .carousel-card .review-text,
+    #reviews .carousel-card .review-author,
+    #reviews .carousel-card .review-company {
+      color: #111 !important;
+    }
+    [data-theme="dark"] #blogs .carousel-card .blog-title,
+    [data-theme="dark"] #blogs .carousel-card .blog-excerpt,
+    [data-theme="dark"] #blogs .carousel-card .blog-date,
+    [data-theme="dark"] #blogs .carousel-card .blog-read-more,
+    [data-theme="dark"] #reviews .carousel-card .review-text,
+    [data-theme="dark"] #reviews .carousel-card .review-author,
+    [data-theme="dark"] #reviews .carousel-card .review-company {
+      color: #f5f4ef !important;
+    }
+    /* Review author section with profile picture */
+    .review-author-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .review-profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid var(--text, #111);
+    }
+    [data-theme="dark"] .review-profile-pic {
+      border: 2px solid var(--text, #f5f4ef);
+    }
+    .review-profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .review-author-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    /* Request to attend button - same behavior as Join the Community button */
+    .request-attend-btn {
+      background: var(--text, #111);
+      color: var(--bg, #f5f4ef);
+      border: 2px solid #111;
+      border-radius: 0;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.3s, color 0.3s, border 0.3s, border-image 0.3s;
+      width: 100%;
+    }
+    [data-theme="dark"] .request-attend-btn {
+      background: var(--text, #f5f4ef);
+      color: var(--bg, #111);
+      border: 2px solid #f5f4ef;
+    }
+    .request-attend-btn:hover {
+      background: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border: 2px solid transparent;
+      border-image: linear-gradient(90deg, #f8a5b6 0%, #a7e9f7 33%, #ffe9a7 66%, #b3b6f7 100%);
+      border-image-slice: 1;
+      color: #111;
+    }
+    [data-theme="dark"] .request-attend-btn:hover {
+      color: #111;
+    }
+    /* Center the Latest Insights carousel */
+    #blogs .carousel-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #blogs .carousel-track {
+      justify-content: center;
+      gap: 2rem;
+    }
+    #blogs .carousel-slide {
+      display: flex;
+      justify-content: center;
+    }
+    /* Reviews carousel - one full flashcard at a time */
+    #reviews .carousel-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #reviews .carousel-track {
+      justify-content: center;
+      gap: 0;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #reviews .carousel-slide {
+      display: flex;
+      justify-content: center;
+      min-width: 100%;
+    }
+    #reviews .carousel-card {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .about-feature-highlight-row {
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem 0 2.5rem 0;
+      width: 100%;
+    }
+    .about-feature-highlight {
+      max-width: 340px;
+      min-width: 220px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 1.2rem;
+      background: #f5f5f5;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 900px) {
+      .about-feature-highlight {
+        max-width: 95vw;
+        padding: 1.2rem 0.7rem;
+      }
+    }
+    .section-heading-large, #blogs h2, #reviews h2, #events h2, #contact h2 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+    @media (max-width: 900px) {
+      .section-heading-large, #blogs h2, #reviews h2, #events h2, #contact h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.2rem;
+      }
+    }
+    /* Footer */
+    .footer-phone-row {
+      font-size: 1rem;
+      color: inherit;
+      margin: 0.2rem 0 0.5rem 0;
+      text-align: left;
+    }
+    .footer-phone-row a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 1rem;
+      display: inline-block;
+    }
+    .footer-icons-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 0.5rem;
+    }
+    .footer-icons-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 2.2rem;
+      width: 100%;
+    }
+    @media (max-width: 900px) {
+      .footer-icons-grid {
+        gap: 0.2rem;
+      }
+      .footer-icons-row {
+        gap: 1.2rem;
+      }
+    }
+    .footer-icons-block svg {
+      width: 2.205rem !important;
+      height: 2.205rem !important;
+      min-width: 2.205rem !important;
+      min-height: 2.205rem !important;
+      max-width: 2.205rem !important;
+      max-height: 2.205rem !important;
+      display: block;
+    }
+    .footer-icons-row a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .footer-middle-block {
+      flex: 2 1 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: inherit;
+      padding: 0 1.5rem;
+      min-width: 260px;
+      max-width: 600px;
+      margin: 0 auto;
+      height: 100%;
+    }
+    .footer-middle-block .footer-description {
+      margin-bottom: 0.5rem;
+      margin-top: auto;
+    }
+    .footer-main {
+      align-items: stretch;
+    }
+    .footer-middle-block > * {
+      margin: auto 0;
+    }
+    @media (max-width: 900px) {
+      .footer-middle-block {
+        padding: 0;
+        max-width: 95vw;
+        font-size: 1rem;
+        min-height: unset;
+        height: auto;
+        justify-content: center;
+      }
+      .footer-main {
+        align-items: center;
+      }
+    }
+    #about, #blogs, #contact, #events, #reviews {
+      scroll-margin-top: 110px;
+    }
+    @media (max-width: 900px) {
+      #about, #blogs, #contact, #events, #reviews {
+        scroll-margin-top: 70px;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div style="text-align: center;">
+      <img src="image.png" alt="BEING HR Logo" class="loading-spinner">
+      <div class="loading-text">Loading BEING HR...</div>
+    </div>
+  </div>
+  <div id="scroll-bar"><div id="scroll-bar-inner"></div></div>
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <button class="menu-icon" id="menuBtn" aria-label="Open menu"><span class="material-icons">menu</span></button>
+        <a href="#" class="logo-link" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="image.png" alt="BEING HR Logo" class="logo-img">
+          <span class="logo-text">BEING HR</span>
+        </a>
+      </div>
+      <div class="header-right">
+        <a href="#about" class="header-link">About</a>
+        <a href="#careers" class="header-link">Careers</a>
+        <a href="#gallery" class="header-link">Gallery</a>
+        <a href="#contact" class="header-link">Contact Us</a>
+        <a href="#join" class="btn-primary header-link" style="font-size:1rem; padding:0.2rem 0.9rem;">Join Us</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch theme"><span class="material-icons" id="themeIcon">dark_mode</span></button>
+      </div>
+    </div>
+    <div class="drawer-bg" id="drawerBg"></div>
+    <nav class="drawer" id="drawer">
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu"><span class="material-icons">keyboard_double_arrow_left</span></button>
+      <div class="drawer-links">
+        <a href="#home" class="drawer-link">Home</a>
+        <a href="#gallery" class="drawer-link">Gallery</a>
+        <a href="#blogs" class="drawer-link">Blogs</a>
+        <a href="#careers" class="drawer-link">Careers</a>
+        <a href="#sponsorships" class="drawer-link">Sponsorships</a>
+        <a href="#contact" class="drawer-link">Contact Us</a>
+      </div>
+    </nav>
+  </header>
+  <div class="gradient-bar">
+    <div class="gradient-bar-text">Empowering HR Professionals Across India</div>
+  </div>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p>Join the largest community of HR professionals with over 60,000 members from IT, Media, Manufacturing, and Startups.</p>
+        <div class="hero-buttons">
+          <a href="#join" class="header-link">Join the Community</a>
+          <a href="#events" id="explore-events-btn" class="header-link">Explore Our Events</a>
+        </div>
+      </div>
+    </section>
+    <section id="about">
+      <div class="container">
+        <div class="about-section">
+          <div class="about-title-massive">
+            <span>Your Growth,</span>
+            <span>Our Mission.</span>
+          </div>
+          <div class="about-content-right">
+            <p>BEING HR is India's leading community for HR professionals, offering unmatched opportunities to connect, learn, and grow. With over <strong>60,000 members</strong> from industries like IT, Media, Manufacturing, and Startups, we are redefining HR's role as a strategic partner in business success.</p>
+            <p>Whether you're looking to expand your knowledge, learn new skills, connect with other professionals, or create new business opportunities, BEING HR is the right partner for you.</p>
+          </div>
+        </div>
+        <div class="features-row">
+          <div class="feature-flashcard">
+            <img src="headerfinal.png" alt="Networking" class="feature-flashcard-img">
+            <div class="feature-title">Networking Opportunities</div>
+            <div class="feature-description">Connect with HR professionals in your city, participate in events, and join specialized WhatsApp groups.</div>
+          </div>
+          <div class="feature-flashcard">
+            <img src="headerfinal.png" alt="Learning" class="feature-flashcard-img">
+            <div class="feature-title">Learning & Development</div>
+            <div class="feature-description">Stay updated through workshops, webinars, and curated content designed for HR professionals.</div>
+          </div>
+          <div class="feature-flashcard">
+            <img src="headerfinal.png" alt="Events" class="feature-flashcard-img">
+            <div class="feature-title">Exclusive Events</div>
+            <div class="feature-description">Join HR conclaves, conferences, mock interview programs, and industry-leading panel discussions.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="events">
+      <div class="container">
+        <h2 class="section-heading-large">Our Upcoming Events</h2>
+        <div class="carousel-container">
+          <button class="carousel-arrow left" onclick="slideCarousel('events', -1)">
+            <span class="material-icons">chevron_left</span>
+          </button>
+          <div class="carousel-track" id="eventsTrack">
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="event-date">Sample Event 1</div>
+                <div class="event-title">Sample Flashcard</div>
+                <div class="event-details">
+                  <p><strong>Location:</strong> Sample Location 1</p>
+                  <p><strong>Time:</strong> 10:00</p>
+                  <p>This is a sample event flashcard for demonstration purposes.</p>
+                </div>
+                <button class="request-attend-btn">Request to attend</button>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card active">
+                <div class="event-date">Sample Event 2</div>
+                <div class="event-title">Sample Flashcard</div>
+                <div class="event-details">
+                  <p><strong>Location:</strong> Sample Location 2</p>
+                  <p><strong>Time:</strong> 11:00</p>
+                  <p>This is a sample event flashcard for demonstration purposes.</p>
+                </div>
+                <button class="request-attend-btn">Request to attend</button>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="event-date">Sample Event 3</div>
+                <div class="event-title">Sample Flashcard</div>
+                <div class="event-details">
+                  <p><strong>Location:</strong> Sample Location 3</p>
+                  <p><strong>Time:</strong> 12:00</p>
+                  <p>This is a sample event flashcard for demonstration purposes.</p>
+                </div>
+                <button class="request-attend-btn">Request to attend</button>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="event-date">Sample Event 4</div>
+                <div class="event-title">Sample Flashcard</div>
+                <div class="event-details">
+                  <p><strong>Location:</strong> Sample Location 4</p>
+                  <p><strong>Time:</strong> 13:00</p>
+                  <p>This is a sample event flashcard for demonstration purposes.</p>
+                </div>
+                <button class="request-attend-btn">Request to attend</button>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="event-date">Sample Event 5</div>
+                <div class="event-title">Sample Flashcard</div>
+                <div class="event-details">
+                  <p><strong>Location:</strong> Sample Location 5</p>
+                  <p><strong>Time:</strong> 14:00</p>
+                  <p>This is a sample event flashcard for demonstration purposes.</p>
+                </div>
+                <button class="request-attend-btn">Request to attend</button>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-arrow right" onclick="slideCarousel('events', 1)">
+            <span class="material-icons">chevron_right</span>
+          </button>
+          <div class="carousel-dots" id="eventsDots">
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="reviews">
+      <div class="container">
+        <h2 class="section-heading-large">Voices from Our Community</h2>
+        <div class="carousel-container">
+          <button class="carousel-arrow left" onclick="slideCarousel('reviews', -1)">
+            <span class="material-icons">chevron_left</span>
+          </button>
+          <div class="carousel-track" id="reviewsTrack">
+            <div class="carousel-slide">
+              <div class="carousel-card active">
+                <div class="review-text">Very well organised. Time management is brilliant. Time spent well.</div>
+                <div class="review-author-section">
+                  <div class="review-profile-pic">
+                    <img src="profile-picture.jpg" alt="Pawan Chandra">
+                  </div>
+                  <div class="review-author-info">
+                    <div class="review-author">Pawan Chandra</div>
+                    <div class="review-company">Pidilite Industries</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="review-text">We are delighted to have been a part of the 4th CFO-Confex & Awards 2024 – Mumbai Chapter. The event was a resounding success.</div>
+                <div class="review-author-section">
+                  <div class="review-profile-pic">
+                    <img src="profile-picture.jpg" alt="Ruhan Saldanha">
+                  </div>
+                  <div class="review-author-info">
+                    <div class="review-author">Ruhan Saldanha</div>
+                    <div class="review-company">Kaizen</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="review-text">I would like to extend my appreciation to Mr. Naved of Gainskills Media for coordinating the recently concluded CX.</div>
+                <div class="review-author-section">
+                  <div class="review-profile-pic">
+                    <img src="profile-picture.jpg" alt="Mellacheruvu Kalyan Ram">
+                  </div>
+                  <div class="review-author-info">
+                    <div class="review-author">Mellacheruvu Kalyan Ram</div>
+                    <div class="review-company">Focus Softnet</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="review-text">Excellent networking opportunities and valuable insights shared during the event.</div>
+                <div class="review-author-section">
+                  <div class="review-profile-pic">
+                    <img src="profile-picture.jpg" alt="Sarah Johnson">
+                  </div>
+                  <div class="review-author-info">
+                    <div class="review-author">Sarah Johnson</div>
+                    <div class="review-company">TechCorp</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="review-text">The workshops were incredibly informative and the speakers were industry experts.</div>
+                <div class="review-author-section">
+                  <div class="review-profile-pic">
+                    <img src="profile-picture.jpg" alt="Michael Chen">
+                  </div>
+                  <div class="review-author-info">
+                    <div class="review-author">Michael Chen</div>
+                    <div class="review-company">InnovateHR</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-arrow right" onclick="slideCarousel('reviews', 1)">
+            <span class="material-icons">chevron_right</span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <section id="blogs">
+      <div class="container">
+        <h2 class="section-heading-large">Latest Insights</h2>
+        <div class="carousel-container no-nav">
+          <div class="carousel-track" id="blogsTrack">
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="blog-date">January 2025</div>
+                <div class="blog-title">The Future of DEIB: Building Truly Inclusive Workplaces</div>
+                <div class="blog-excerpt">Discover strategies to create equitable, diverse, and inclusive work environments that drive business success.</div>
+                <div class="blog-read-more">Read More</div>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="blog-date">December 2024</div>
+                <div class="blog-title">HR Analytics: Unlocking Data-Driven Decision Making</div>
+                <div class="blog-excerpt">Learn how HR analytics can enhance recruitment, retention, and overall HR efficiency in modern organizations.</div>
+                <div class="blog-read-more">Read More</div>
+              </div>
+            </div>
+            <div class="carousel-slide">
+              <div class="carousel-card">
+                <div class="blog-date">November 2024</div>
+                <div class="blog-title">The Rise of Employee Well-being: Beyond Traditional Benefits</div>
+                <div class="blog-excerpt">Explore innovative approaches to supporting employee mental health and well-being in the workplace.</div>
+                <div class="blog-read-more">Read More</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="header-image-bar">
+      <img src="headerfinal.png" alt="BEING HR Banner">
+    </div>
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-heading-large">Have Questions? Let's Connect!</h2>
+        <div class="contact-content">
+          <div class="contact-flashcard">
+            <div class="contact-info">
+              <div class="contact-item">
+                <strong>General Inquiries</strong><br>
+                Email: shyam@beinghr.online<br>
+                Phone: +91 88504 87716
+              </div>
+              <div class="contact-item">
+                <strong>Office Address</strong><br>
+                103, Shourie Complex, JP Rd, Andheri West, Mumbai 400058
+              </div>
+              <div class="contact-item">
+                <strong>Membership</strong><br>
+                membership@beinghr.com
+              </div>
+              <div class="contact-item">
+                <strong>Events</strong><br>
+                events@beinghr.com
+              </div>
+              <div class="contact-item">
+                <strong>Partnerships</strong><br>
+                partners@beinghr.com
+              </div>
+            </div>
+            <div class="contact-form">
+              <h3>Send us a Message</h3>
+              <form>
+                <div class="form-group">
+                  <input type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                  <input type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                  <input type="tel" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                  <textarea placeholder="Enter your message" required maxlength="1000"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-main">
+      <div class="footer-logo-block">
+        <div class="footer-logo-img">
+          <img src="logofinal.png" alt="BEING HR Logo">
+        </div>
+        <div class="footer-address">
+          103, Shourie Complex, JP Rd,<br>
+          Andheri West, Mumbai 400058
+        </div>
+        <div class="footer-phone-row">
+          <a href="tel:+918850487716" aria-label="Phone"><span class="footer-phone">📞</span>+91 88504 87716</a>
+        </div>
+      </div>
+      <div class="footer-icons-block">
+        <div class="footer-icons-grid">
+          <div class="footer-icons-row">
+            <a href="https://www.linkedin.com/company/beinghr/" target="_blank" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.28c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zm15.5 11.28h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-10h2.89v1.36h.04c.4-.75 1.38-1.54 2.84-1.54 3.04 0 3.6 2 3.6 4.59v5.59z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/beinghr/" target="_blank" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2.2c3.2 0 3.584.012 4.85.07 1.17.056 1.97.24 2.43.41.59.22 1.01.48 1.45.92.44.44.7.86.92 1.45.17.46.354 1.26.41 2.43.058 1.266.07 1.65.07 4.85s-.012 3.584-.07 4.85c-.056 1.17-.24 1.97-.41 2.43-.22.59-.48 1.01-.92 1.45-.44.44-.86.7-1.45.92-.46.17-1.26.354-2.43.41-1.266.058-1.65.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.056-1.97-.24-2.43-.41-.59-.22-1.01-.48-1.45-.92-.44-.44-.7-.86-.92-1.45-.17-.46-.354-1.26-.41-2.43C2.212 15.784 2.2 15.4 2.2 12s.012-3.584.07-4.85c.056-1.17.24-1.97.41-2.43.22-.59.48-1.01.92-1.45.44-.44.86-.7 1.45-.92.46-.17 1.26-.354 2.43-.41C8.416 2.212 8.8 2.2 12 2.2zm0-2.2C8.736 0 8.332.012 7.052.07 5.77.128 4.77.312 4.01.54c-.77.23-1.42.54-2.07 1.19-.65.65-.96 1.3-1.19 2.07-.23.76-.412 1.76-.47 3.04C.012 8.332 0 8.736 0 12c0 3.264.012 3.668.07 4.948.058 1.28.24 2.28.47 3.04.23.77.54 1.42 1.19 2.07.65.65 1.3.96 2.07 1.19.76.23 1.76.412 3.04.47C8.332 23.988 8.736 24 12 24s3.668-.012 4.948-.07c1.28-.058 2.28-.24 3.04-.47.77-.23 1.42-.54 2.07-1.19.65-.65.96-1.3 1.19-2.07.23-.76.412-1.76.47-3.04.058-1.28.07-1.684.07-4.948 0-3.264-.012-3.668-.07-4.948-.058-1.28-.24-2.28-.47-3.04-.23-.77-.54-1.42-1.19-2.07-.65-.65-1.3-.96-2.07-1.19-.76-.23-1.76-.412-3.04-.47C15.668.012 15.264 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm7.844-10.406a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/beinghr/" target="_blank" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.326 24H12.82v-9.294H9.692v-3.622h3.127V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"/></svg>
+            </a>
+          </div>
+          <div class="footer-icons-row">
+            <a href="https://www.youtube.com/@beinghr" target="_blank" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M23.498 6.186a2.994 2.994 0 0 0-2.112-2.112C19.692 3.5 12 3.5 12 3.5s-7.692 0-9.386.574A2.994 2.994 0 0 0 .502 6.186C0 7.88 0 12 0 12s0 4.12.502 5.814a2.994 2.994 0 0 0 2.112 2.112C4.308 20.5 12 20.5 12 20.5s7.692 0 9.386-.574a2.994 2.994 0 0 0 2.112-2.112C24 16.12 24 12 24 12s0-4.12-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="mailto:shyam@beinghr.online" aria-label="Email">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 13.065l-11.99-8.065h23.98zm11.99 1.935v6c0 1.104-.896 2-2 2h-19.98c-1.104 0-2-.896-2-2v-6l11.99 8.065z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-description-block">
+        <div class="footer-description">BeingHR is India's leading community for HR professionals, offering unmatched opportunities to connect, learn, and grow. With over 60,000 members from industries like IT, Media, Manufacturing, and Startups, we are redefining HR's role as a strategic partner in business success.</div>
+      </div>
+    </div>
+    <div class="footer-bottom" style="text-align:center; font-size:0.95rem; margin-top:1.2rem; color:inherit;">
+      © Copyright GM Infotech Pvt. Ltd. - 2025
+    </div>
+  </footer>
+  <script>
+    // Events carousel with auto-scroll, Reviews and Insights as horizontal scroll
+    const carousels = {
+      events: { current: 1, total: 5, interval: null }, // Start from 2nd position (index 1)
+      reviews: { current: 0, total: 5, interval: null } // Reviews carousel
+    };
+    
+    function slideCarousel(type, direction) {
+      const carousel = carousels[type];
+      const track = document.getElementById(type + 'Track');
+      const dots = document.getElementById(type + 'Dots');
+      const cards = track.querySelectorAll('.carousel-card');
+      const leftArrow = track.parentElement.querySelector('.carousel-arrow.left');
+      const rightArrow = track.parentElement.querySelector('.carousel-arrow.right');
+      
+      // Clear existing interval
+      if (carousel.interval) {
+        clearInterval(carousel.interval);
+      }
+      
+      // Update current slide (no circular navigation - disable buttons at ends)
+      if (direction === 1) {
+        // Moving right - only if not at the end
+        if (carousel.current < carousel.total - 1) {
+          carousel.current = carousel.current + 1;
+        }
+      } else {
+        // Moving left - only if not at the beginning
+        if (carousel.current > 0) {
+          carousel.current = carousel.current - 1;
+        }
+      }
+      
+      // Calculate movement direction for visual effect
+      let movementOffset;
+      if (type === 'events') {
+        // Events: 3 cards visible, center the current card
+        const slideWidth = 100 / 3;
+        movementOffset = (carousel.current * slideWidth) - slideWidth;
+      } else {
+        // Reviews: 1 card visible, full width movement
+        movementOffset = carousel.current * 100;
+      }
+      
+      // Apply movement with direction-based animation
+      track.style.transform = `translateX(-${movementOffset}%)`;
+      
+      // Update card states - always highlight the center/active card
+      cards.forEach((card, index) => {
+        card.classList.remove('active');
+        if (index === carousel.current) {
+          card.classList.add('active');
+        }
+      });
+      
+      // Update dots (only if dots exist)
+      if (dots) {
+        dots.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+          dot.classList.toggle('active', index === carousel.current);
+        });
+      }
+      
+      // Update button states
+      if (leftArrow) {
+        leftArrow.disabled = carousel.current === 0;
+        leftArrow.style.opacity = carousel.current === 0 ? '0.3' : '1';
+        leftArrow.style.cursor = carousel.current === 0 ? 'not-allowed' : 'pointer';
+      }
+      
+      if (rightArrow) {
+        rightArrow.disabled = carousel.current === carousel.total - 1;
+        rightArrow.style.opacity = carousel.current === carousel.total - 1 ? '0.3' : '1';
+        rightArrow.style.cursor = carousel.current === carousel.total - 1 ? 'not-allowed' : 'pointer';
+      }
+      
+      // Only restart auto-slide for events, not for reviews
+      if (type === 'events') {
+        startAutoSlide(type);
+      }
+    }
+    
+    function startAutoSlide(type) {
+      const carousel = carousels[type];
+      
+      // Clear existing interval
+      if (carousel.interval) {
+        clearInterval(carousel.interval);
+      }
+      
+      // Set different intervals for different carousels
+      const interval = type === 'reviews' ? 7000 : 5000; // 7 seconds for reviews, 5 for events
+      
+      // Start new interval
+      carousel.interval = setInterval(() => {
+        slideCarousel(type, 1);
+      }, interval);
+    }
+    
+    // Initialize events carousel
+    document.addEventListener('DOMContentLoaded', function() {
+      // Start with 2nd card (index 1) for events
+      const eventsCarousel = carousels.events;
+      eventsCarousel.current = 1; // Start from 2nd position
+      slideCarousel('events', 0); // Initialize without direction change
+      
+      // Add click handlers for events dots
+      const eventsDots = document.getElementById('eventsDots');
+      eventsDots.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          const carousel = carousels.events;
+          const direction = index - carousel.current;
+          slideCarousel('events', direction);
+        });
+      });
+      
+          // Initialize reviews carousel
+    const reviewsCarousel = carousels.reviews;
+    reviewsCarousel.current = 0; // Start from first position
+    slideCarousel('reviews', 0); // Initialize without direction change
+    // Don't start auto-slide for reviews - manual navigation only
+      
+      // Reviews carousel has no dots - manual navigation only
+      
+      // Set initial button states
+      updateButtonStates('events');
+      updateButtonStates('reviews');
+    });
+    
+    function updateButtonStates(type) {
+      const carousel = carousels[type];
+      const track = document.getElementById(type + 'Track');
+      const leftArrow = track.parentElement.querySelector('.carousel-arrow.left');
+      const rightArrow = track.parentElement.querySelector('.carousel-arrow.right');
+      
+      if (leftArrow) {
+        leftArrow.disabled = carousel.current === 0;
+        leftArrow.style.opacity = carousel.current === 0 ? '0.3' : '1';
+        leftArrow.style.cursor = carousel.current === 0 ? 'not-allowed' : 'pointer';
+      }
+      
+      if (rightArrow) {
+        rightArrow.disabled = carousel.current === carousel.total - 1;
+        rightArrow.style.opacity = carousel.current === carousel.total - 1 ? '0.3' : '1';
+        rightArrow.style.cursor = carousel.current === carousel.total - 1 ? 'not-allowed' : 'pointer';
+      }
+    }
+    
+    // Loading screen functionality
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        loadingScreen.classList.add('fade-out');
+        setTimeout(function() {
+          loadingScreen.style.display = 'none';
+        }, 500);
+      }, 1000); // Show loading for at least 1 second
+    });
+    
+    // Scroll progress bar
+    window.addEventListener('scroll', function() {
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var scrollTop = window.scrollY || window.pageYOffset;
+      var percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('scroll-bar-inner').style.width = percent + '%';
+    });
+    // Drawer logic
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerBg = document.getElementById('drawerBg');
+    const drawerClose = document.getElementById('drawerClose');
+    menuBtn.onclick = function() {
+      drawer.classList.add('active');
+      drawerBg.classList.add('active');
+    };
+    drawerBg.onclick = drawerClose.onclick = function() {
+      drawer.classList.remove('active');
+      drawerBg.classList.remove('active');
+    };
+    // Theme switcher
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      if (theme === 'dark') themeIcon.textContent = 'light_mode';
+      else themeIcon.textContent = 'dark_mode';
+      localStorage.setItem('theme', theme);
+    }
+    themeToggle.onclick = function() {
+      const current = document.body.getAttribute('data-theme') || 'light';
+      setTheme(current === 'light' ? 'dark' : 'light');
+    };
+    // On load, set theme from localStorage
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) setTheme(saved);
+    })();
+    // Footer slide-in effect on scroll
+    function footerSlideInOnScroll() {
+      var footer = document.getElementById('footerSlideIn');
+      var rect = footer.getBoundingClientRect();
+      var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top < windowHeight - 60) {
+        footer.classList.add('visible');
+        window.removeEventListener('scroll', footerSlideInOnScroll);
+      }
+    }
+    window.addEventListener('scroll', footerSlideInOnScroll);
+    // In case already in view on load
+    footerSlideInOnScroll();
+  </script>
+  <!-- Add modal HTML just before </body> -->
+  <div id="joinModal" class="join-modal-bg" style="display:none;">
+    <div class="join-modal">
+      <div class="join-modal-img-section">
+        <img id="aiJoinImg" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="AI Generated" />
+      </div>
+      <div class="join-modal-form-section">
+        <button class="join-modal-close" id="joinModalClose" aria-label="Close">
+          <span class="material-icons">keyboard_double_arrow_left</span>
+        </button>
+        <div class="join-modal-tabs">
+          <button id="loginTab" class="active">Log In</button>
+          <button id="signupTab">Sign Up</button>
+        </div>
+        <form id="loginForm" class="join-modal-form">
+          <input type="email" placeholder="Email" required />
+          <input type="password" placeholder="Password" required />
+          <button type="submit">Log In</button>
+          <div class="join-modal-or">or</div>
+          <button type="button" class="google-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" class="google-logo" />
+            Continue with Google
+          </button>
+        </form>
+        <form id="signupForm" class="join-modal-form" style="display:none;">
+          <input type="email" placeholder="Email" required />
+          <input type="password" id="signupPassword" placeholder="Password" required />
+          <input type="password" id="signupPasswordConfirm" placeholder="Confirm Password" required />
+          <div id="passwordValidation" class="password-validation"></div>
+          <button type="submit">Sign Up</button>
+          <div class="join-modal-or">or</div>
+          <button type="button" class="google-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" class="google-logo" />
+            Continue with Google
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal CSS -->
+  <style>
+  .join-modal-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .join-modal {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: row;
+    width: 800px;
+    max-width: 95vw;
+    min-height: 420px;
+    overflow: hidden;
+    position: relative;
+  }
+  .join-modal-img-section {
+    flex: 2.5 1 0;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .join-modal-img-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-right: 1px solid #eee;
+  }
+  .join-modal-form-section {
+    flex: 1.5 1 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2.2rem 1.2rem 1.2rem 1.2rem;
+    position: relative;
+  }
+  .join-modal-close {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    background: none;
+    border: none;
+    color: #111;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+  .join-modal-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .join-modal-tabs button {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    padding: 0.3rem 1.2rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border 0.2s;
+  }
+  .join-modal-tabs button.active {
+    color: #111;
+    border-bottom: 2px solid #f8a5b6;
+  }
+  .join-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: stretch;
+  }
+  .join-modal-form input {
+    padding: 0.7rem;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  .join-modal-form button[type="submit"] {
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .join-modal-form button[type="submit"]:hover {
+    background: #f8a5b6;
+    color: #111;
+  }
+  .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    background: #fff;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    padding: 0.7rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s, border 0.2s;
+  }
+  .google-btn:hover {
+    background: #f5f5f5;
+    border: 1px solid #f8a5b6;
+  }
+  .google-logo {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+  }
+  .join-modal-or {
+    text-align: center;
+    color: #888;
+    margin: 0.5rem 0;
+  }
+  .password-validation {
+    font-size: 0.95rem;
+    color: #d32f2f;
+    min-height: 1.2em;
+    margin-bottom: -0.5rem;
+  }
+  @media (max-width: 900px) {
+    .join-modal {
+      flex-direction: column;
+      width: 98vw;
+      min-height: 60vw;
+      max-width: 98vw;
+    }
+    .join-modal-img-section, .join-modal-form-section {
+      flex: unset;
+      width: 100%;
+      min-height: 180px;
+      max-height: 220px;
+    }
+    .join-modal-img-section img {
+      border-right: none;
+      border-bottom: 1px solid #eee;
+    }
+    .join-modal-form-section {
+      padding: 1.2rem 0.7rem;
+    }
+  }
+  </style>
+  <!-- Modal JS -->
+  <script>
+  // Modal open/close logic
+  function openJoinModal() {
+    document.getElementById('joinModal').style.display = 'flex';
+  }
+  function closeJoinModal() {
+    document.getElementById('joinModal').style.display = 'none';
+  }
+  document.getElementById('joinModalClose').onclick = closeJoinModal;
+  // Open modal on Join Us and Join the Community
+  var joinUsBtn = document.querySelector('.btn-primary.header-link');
+  if (joinUsBtn) joinUsBtn.onclick = function(e) { e.preventDefault(); openJoinModal(); };
+  var joinCommunityBtn = document.querySelector('a.header-link[href="#join"]');
+  if (joinCommunityBtn) joinCommunityBtn.onclick = function(e) { e.preventDefault(); openJoinModal(); };
+  var heroJoinBtn = document.querySelector('.hero-buttons a.header-link');
+  if (heroJoinBtn) heroJoinBtn.onclick = function(e) { e.preventDefault(); openJoinModal(); };
+  // Tabs logic
+  var loginTab = document.getElementById('loginTab');
+  var signupTab = document.getElementById('signupTab');
+  var loginForm = document.getElementById('loginForm');
+  var signupForm = document.getElementById('signupForm');
+  loginTab.onclick = function() {
+    loginTab.classList.add('active');
+    signupTab.classList.remove('active');
+    loginForm.style.display = '';
+    signupForm.style.display = 'none';
+  };
+  signupTab.onclick = function() {
+    signupTab.classList.add('active');
+    loginTab.classList.remove('active');
+    loginForm.style.display = 'none';
+    signupForm.style.display = '';
+  };
+  // Password validation
+  var signupPassword = document.getElementById('signupPassword');
+  var signupPasswordConfirm = document.getElementById('signupPasswordConfirm');
+  var passwordValidation = document.getElementById('passwordValidation');
+  function validatePassword() {
+    var pwd = signupPassword.value;
+    var confirm = signupPasswordConfirm.value;
+    var valid = true;
+    var msg = [];
+    if (pwd.length < 8) { valid = false; msg.push('At least 8 characters'); }
+    if (!/[A-Z]/.test(pwd)) { valid = false; msg.push('One uppercase letter'); }
+    if (!/[a-z]/.test(pwd)) { valid = false; msg.push('One lowercase letter'); }
+    if (!/[0-9]/.test(pwd)) { valid = false; msg.push('One number'); }
+    if (!/[^A-Za-z0-9]/.test(pwd)) { valid = false; msg.push('One special character'); }
+    if (pwd !== confirm) { valid = false; msg.push('Passwords must match'); }
+    passwordValidation.textContent = msg.join(', ');
+    return valid;
+  }
+  signupPassword.oninput = signupPasswordConfirm.oninput = validatePassword;
+  signupForm.onsubmit = function(e) {
+    if (!validatePassword()) {
+      e.preventDefault();
+      return false;
+    }
+    // Simulate sign up and sign in
+    e.preventDefault();
+    closeJoinModal();
+    setSignedInState();
+  };
+  loginForm.onsubmit = function(e) {
+    e.preventDefault();
+    closeJoinModal();
+    setSignedInState();
+  };
+  function setSignedInState() {
+    var joinUsBtn = document.querySelector('.btn-primary.header-link');
+    if (joinUsBtn) {
+      joinUsBtn.textContent = 'Signed In';
+      joinUsBtn.classList.add('signed-in');
+      joinUsBtn.onclick = function(e) { e.preventDefault(); };
+    }
+    var heroJoinBtn = document.querySelector('.hero-buttons a.header-link');
+    if (heroJoinBtn) {
+      heroJoinBtn.textContent = 'Signed In';
+      heroJoinBtn.classList.add('signed-in');
+      heroJoinBtn.onclick = function(e) { e.preventDefault(); };
+    }
+  }
+  </script>
+  <!-- Contact form mailto logic -->
+  <script>
+  // ... existing code ...
+  // Contact form mailto logic
+  var contactForm = document.querySelector('#contact .contact-form form');
+  if (contactForm) {
+    contactForm.onsubmit = function(e) {
+      e.preventDefault();
+      var name = contactForm.querySelector('input[type="text"]').value;
+      var email = contactForm.querySelector('input[type="email"]').value;
+      var phone = contactForm.querySelector('input[type="tel"]').value;
+      var message = contactForm.querySelector('textarea').value;
+      var mailto = 'mailto:shyam@beinghr.online'
+        + '?subject=' + encodeURIComponent('I have a query')
+        + '&body=' + encodeURIComponent(
+          'Name: ' + name + '\n'
+          + 'Email: ' + email + '\n'
+          + 'Phone: ' + phone + '\n'
+          + 'Message: ' + message
+        );
+      window.location.href = mailto;
+      return false;
+    };
+  }
+  </script>
+  <!-- Sponsorships mailto logic -->
+  <script>
+  var sponsorshipsLink = document.querySelector('a.header-link[href="#sponsorships"], a.drawer-link[href="#sponsorships"]');
+  if (sponsorshipsLink) {
+    sponsorshipsLink.onclick = function(e) {
+      e.preventDefault();
+      window.location.href = 'mailto:partners@beinghr.com';
+    };
+  }
+  </script>
+  <!-- Drawer Home button mimics BeingHR icon -->
+  <script>
+  // ... existing code ...
+  var logoLink = document.querySelector('.logo-link');
+  var drawerHome = document.querySelector('.drawer-link[href="#home"]');
+  if (logoLink && drawerHome) {
+    drawerHome.onclick = function(e) {
+      e.preventDefault();
+      logoLink.click();
+    };
+  }
+  </script>
+</body>
+</html>
